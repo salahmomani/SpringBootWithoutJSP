@@ -35,7 +35,7 @@ public class RepoStudents {
 
     public void add(Student student) {
         int rows = jdbcTemplate.update(addQuery, student.getName(), student.getEmail());
-        System.out.println(rows + " Added");
+        System.out.println(rows + " Added   ");
     }
 
 
