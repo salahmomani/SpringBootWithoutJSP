@@ -2,6 +2,8 @@ package com.Spring.SpringBootWithoutJSP.Service;
 
 import com.Spring.SpringBootWithoutJSP.Model.Course;
 import com.Spring.SpringBootWithoutJSP.Repo.RepoCourse;
+import com.Spring.SpringBootWithoutJSP.Repo.RepoStudents;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,9 +12,12 @@ import java.util.List;
 public class CourseService {
 
     private final RepoCourse repoCourse;
+    private final RepoStudents repoStudents;
 
-    public CourseService(RepoCourse repoCourse) {
+    @Autowired
+    public CourseService(RepoCourse repoCourse, RepoStudents repoStudents) {
         this.repoCourse = repoCourse;
+        this.repoStudents = repoStudents;
     }
 
 
@@ -23,6 +28,7 @@ public class CourseService {
     public void add(Course course) {
         repoCourse.add(course);
     }
+
     public void delete(Long id) {
         repoCourse.deleteCourse(id);
     }

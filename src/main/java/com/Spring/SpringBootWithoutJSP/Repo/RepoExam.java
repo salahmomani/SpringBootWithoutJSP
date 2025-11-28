@@ -15,11 +15,12 @@ public class RepoExam {
 
     List<Exam> exams = new ArrayList<>();
     private final JdbcTemplate jdbcTemplate;
-    String addQuery = "INSERT INTO exams(course_id,name,max_score) VALUES(?,?,?)";
+    String addQuery = "INSERT INTO exams(course_id, name, max_score) VALUES (?, ?, ?)";
     String getAllQuery = "SELECT e.id AS exam_id, e.course_id, e.name AS exam_name, e.max_score " +
             "FROM exams e " +
             "JOIN scores sc ON sc.exam_id = e.id " +
             "WHERE sc.student_id = ?";
+    String saveQuery = "INSERT INTO exams(course_id,name,max_score) VALUES(?,?,?)";
 
     @Autowired
     public RepoExam(JdbcTemplate jdbcTemplate) {
@@ -28,12 +29,9 @@ public class RepoExam {
 
     public void addExam(Exam exam) {
         int rows = jdbcTemplate.update(addQuery, exam.getCourseId(), exam.getName(), exam.getMaxScore());
-        System.out.println(rows + " Added");
+        System.out.println(rows + " Exam Added");
     }
-
-    public Student student;
-
-    public List<Exam> getAll(Long studentId) {
+    public List<Exam> getAll() {
 
         RowMapper<Exam> mapper = (rs, rowNum) -> {
             Exam exam = new Exam();
@@ -44,7 +42,6 @@ public class RepoExam {
             return exam;
         };
 
-        return jdbcTemplate.query(getAllQuery, mapper, studentId);
+        return jdbcTemplate.query(getAllQuery, mapper);
     }
-
 }

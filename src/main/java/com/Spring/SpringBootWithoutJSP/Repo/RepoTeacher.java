@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+
 import java.util.List;
 
 @Repository
@@ -36,7 +37,7 @@ public class RepoTeacher {
 
     public void add(Teacher teacher) {
         int rows = jdbcTemplate.update(addQuery, teacher.getName(), teacher.getEmail());
-        System.out.println(rows + " Added");
+        System.out.println(rows + " Teacher Added");
     }
 
 
@@ -54,7 +55,7 @@ public class RepoTeacher {
 
     public void update(Teacher teacher) {
         int rows = jdbcTemplate.update(updateQuery, teacher.getName(), teacher.getEmail(), teacher.getId());
-        System.out.println(rows + " Updated");
+        System.out.println(rows + " Teacher Updated");
     }
 
     public void deleteTeacher(Long id) {

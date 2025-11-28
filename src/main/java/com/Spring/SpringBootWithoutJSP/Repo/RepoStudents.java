@@ -35,7 +35,7 @@ public class RepoStudents {
 
     public void add(Student student) {
         int rows = jdbcTemplate.update(addQuery, student.getName(), student.getEmail());
-        System.out.println(rows + "Added");
+        System.out.println(rows + "Student Added");
     }
 
 
@@ -53,7 +53,7 @@ public class RepoStudents {
 
     public void update(Student student) {
         int rows = jdbcTemplate.update(update, student.getName(), student.getEmail(), student.getId());
-        System.out.println(rows + " Updated");
+        System.out.println(rows + " Student Updated");
     }
 
     public void deleteStudent(Long id) {

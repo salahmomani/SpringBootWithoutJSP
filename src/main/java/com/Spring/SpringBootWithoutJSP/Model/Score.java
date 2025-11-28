@@ -5,15 +5,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
-
-@Setter
-@Getter
-@AllArgsConstructor
 @NoArgsConstructor
-public class Course {
+@AllArgsConstructor
+@Getter
+@Setter
+public class Score {
     private Long id;
-    private String code;
-    private String title;
+    private Long examId;
+    private Long studentId;
+    private double score;
+
 }

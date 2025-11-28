@@ -37,7 +37,7 @@ public class RepoCourse {
 
     public void add(Course course) {
         int rows = jdbcTemplate.update(addQuery, course.getCode(), course.getTitle());
-        System.out.println(rows + " Added");
+        System.out.println(rows + "Course Added");
     }
 
     public void deleteCourse(Long id) {

@@ -20,7 +20,7 @@ public class ExamService {
         repoExam.addExam(exam);
     }
 
-    public List<Exam> getAll(Long id) {
-        return repoExam.getAll(id);
+    public List<Exam> getAll() {
+        return repoExam.getAll();
     }
 }
