@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/teacher")
+
 public class TeacherController {
 
     private final TeacherService teacherService;
@@ -18,27 +20,27 @@ public class TeacherController {
         this.teacherService = teacherService;
     }
 
-    @GetMapping("/getAllTeachers")
+    @GetMapping("/getAll")
     public List<Teacher> findAll() {
         return teacherService.findAll();
     }
 
-    @PostMapping("/addTeacher")
+    @PostMapping("/add")
     public void add(@RequestBody Teacher teacher) {
         teacherService.add(teacher);
     }
 
-    @GetMapping("/getByIDTeacher")
+    @GetMapping("/getByID")
     public Teacher findByID(@PathVariable Long id) {
         return teacherService.findByID(id);
     }
 
-    @PutMapping("/updateTeacher")
+    @PutMapping("/update")
     public void update(@RequestBody Teacher teacher) {
         teacherService.update(teacher);
     }
 
-    @DeleteMapping("/deleteTeacher/{id}")
+    @DeleteMapping("/delete/{id}")
     public void delete(@PathVariable Long id) {
         teacherService.deleteTeacher(id);
     }

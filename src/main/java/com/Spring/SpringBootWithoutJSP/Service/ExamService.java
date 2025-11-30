@@ -9,6 +9,7 @@ import java.util.List;
 
 @Service
 public class ExamService {
+
     private final RepoExam repoExam;
 
     @Autowired
@@ -21,6 +22,22 @@ public class ExamService {
     }
 
     public List<Exam> getAll() {
-        return repoExam.getAll();
+        return repoExam.getAllExams();
+    }
+
+    public List<Exam> getByCourseId(Long courseId) {
+        return repoExam.getExamsByCourseId(courseId);
+    }
+
+    public List<Exam> getByStudent(Long studentId) {
+        return repoExam.getExamsByStudentId(studentId);
+    }
+
+    public void update(Exam exam) {
+        repoExam.update(exam);
+    }
+
+    public void delete(Long id) {
+        repoExam.delete(id);
     }
 }

@@ -1,47 +1,77 @@
 package com.Spring.SpringBootWithoutJSP.Repo;
 
 import com.Spring.SpringBootWithoutJSP.Model.Exam;
-import com.Spring.SpringBootWithoutJSP.Model.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
-
 @Repository
 public class RepoExam {
 
-    List<Exam> exams = new ArrayList<>();
     private final JdbcTemplate jdbcTemplate;
-    String addQuery = "INSERT INTO exams(course_id, name, max_score) VALUES (?, ?, ?)";
-    String getAllQuery = "SELECT e.id AS exam_id, e.course_id, e.name AS exam_name, e.max_score " +
-            "FROM exams e " +
-            "JOIN scores sc ON sc.exam_id = e.id " +
-            "WHERE sc.student_id = ?";
-    String saveQuery = "INSERT INTO exams(course_id,name,max_score) VALUES(?,?,?)";
+
+    private static final String addQuery =
+            "INSERT INTO exams(course_id, name, max_score) VALUES (?, ?, ?)";
+
+    private static final String getAllQuery =
+            "SELECT * FROM exams";
+
+    private static final String getByCourse =
+            "SELECT * FROM exams WHERE course_id = ?";
+
+    private static final String getByStudent =
+            "SELECT e.* FROM exams e " +
+                    "JOIN scores sc ON sc.exam_id = e.id " +
+                    "WHERE sc.student_id = ?";
+    private static final String UPDATE =
+            "UPDATE exams SET course_id = ?, name = ?, max_score = ? WHERE id = ?";
+
+    private static final String DELETE =
+            "DELETE FROM exams WHERE id = ?";
 
     @Autowired
     public RepoExam(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    private final RowMapper<Exam> examMapper = (rs, rowNum) -> {
+        Exam exam = new Exam();
+        exam.setId(rs.getLong("id"));
+        exam.setCourseId(rs.getLong("course_id"));
+        exam.setName(rs.getString("name"));
+        exam.setMaxScore(rs.getInt("max_score"));
+        return exam;
+    };
+
     public void addExam(Exam exam) {
-        int rows = jdbcTemplate.update(addQuery, exam.getCourseId(), exam.getName(), exam.getMaxScore());
-        System.out.println(rows + " Exam Added");
+        jdbcTemplate.update(addQuery,
+                exam.getCourseId(),
+                exam.getName(),
+                exam.getMaxScore());
     }
-    public List<Exam> getAll() {
 
-        RowMapper<Exam> mapper = (rs, rowNum) -> {
-            Exam exam = new Exam();
-            exam.setId(rs.getLong("exam_id"));
-            exam.setCourseId(rs.getLong("course_id"));
-            exam.setName(rs.getString("exam_name"));
-            exam.setMaxScore(rs.getInt("max_score"));
-            return exam;
-        };
+    public List<Exam> getAllExams() {
+        return jdbcTemplate.query(getAllQuery, examMapper);
+    }
 
-        return jdbcTemplate.query(getAllQuery, mapper);
+    public List<Exam> getExamsByCourseId(Long courseId) {
+        return jdbcTemplate.query(getByCourse, examMapper, courseId);
+    }
+
+    public List<Exam> getExamsByStudentId(Long studentId) {
+        return jdbcTemplate.query(getByStudent, examMapper, studentId);
+    }
+    public void update(Exam exam) {
+        jdbcTemplate.update(UPDATE,
+                exam.getCourseId(),
+                exam.getName(),
+                exam.getMaxScore(),
+                exam.getId());
+    }
+
+    public void delete(Long id) {
+        jdbcTemplate.update(DELETE, id);
     }
 }

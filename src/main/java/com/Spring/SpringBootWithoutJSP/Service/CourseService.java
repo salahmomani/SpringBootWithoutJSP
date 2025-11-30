@@ -32,4 +32,13 @@ public class CourseService {
     public void delete(Long id) {
         repoCourse.deleteCourse(id);
     }
+
+    public List<Course> getCoursesForStudent(Long studentId) {
+
+        if (!repoStudents.existsById(studentId)) {
+            throw new RuntimeException("Student with ID " + studentId + " does not exist!");
+        }
+
+        return repoCourse.findCoursesByStudent(studentId);
+    }
 }

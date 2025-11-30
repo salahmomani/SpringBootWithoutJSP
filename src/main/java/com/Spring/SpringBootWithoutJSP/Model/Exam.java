@@ -1,23 +1,17 @@
 package com.Spring.SpringBootWithoutJSP.Model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 @Setter
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Exam {
     private Long id;
     private Long courseId;
+    private Long studentId;
     private String name;
     private int maxScore;
-    public Exam() {
-    }
-
-    public Exam(Long id, Long courseId, String name, int maxScore) {
-        this.id = id;
-        this.courseId = courseId;
-        this.name = name;
-        this.maxScore = maxScore;
-    }
-
 }

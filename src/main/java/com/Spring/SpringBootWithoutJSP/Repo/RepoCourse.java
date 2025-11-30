@@ -16,6 +16,11 @@ public class RepoCourse {
     String getAllQuery = "SELECT *FROM courses";
     String addQuery = "INSERT INTO courses(code, title) VALUES(?, ?)";
     String delete = "DELETE FROM courses WHERE id = ?";
+    String findCoursesByStudentQuery =
+            "SELECT c.id, c.code, c.title " +
+                    "FROM courses c " +
+                    "JOIN enrollments e ON e.course_id = c.id " +
+                    "WHERE e.student_id = ?";
 
     @Autowired
     public RepoCourse(JdbcTemplate jdbcTemplate) {
@@ -43,5 +48,17 @@ public class RepoCourse {
     public void deleteCourse(Long id) {
         int rows = jdbcTemplate.update(delete, id);
         System.out.println(rows + " Course deleted");
+    }
+    public List<Course> findCoursesByStudent(Long studentId) {
+
+        RowMapper<Course> mapper = (rs, rowNum) -> {
+            Course c = new Course();
+            c.setId(rs.getLong("id"));
+            c.setCode(rs.getString("code"));
+            c.setTitle(rs.getString("title"));
+            return c;
+        };
+
+        return jdbcTemplate.query(findCoursesByStudentQuery, mapper, studentId);
     }
 }

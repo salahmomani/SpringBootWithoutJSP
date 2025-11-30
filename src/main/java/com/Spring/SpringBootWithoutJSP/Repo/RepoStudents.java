@@ -16,6 +16,7 @@ public class RepoStudents {
     String getByID = "select * from students where id=?";
     String update = "UPDATE students SET name = ?, email = ? WHERE id = ?";
     String delete = "DELETE FROM students WHERE id = ?";
+    String existsByIdQuery= "SELECT COUNT(*) FROM students WHERE id = ?";
 
     @Autowired
     public RepoStudents(JdbcTemplate jdbcTemplate) {
@@ -59,6 +60,10 @@ public class RepoStudents {
     public void deleteStudent(Long id) {
         int rows = jdbcTemplate.update(delete, id);
         System.out.println(rows + " Student deleted");
+    }
+    public boolean existsById(Long id) {
+        Integer count = jdbcTemplate.queryForObject(existsByIdQuery, Integer.class, id);
+        return count != null && count > 0;
     }
 
 
